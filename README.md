@@ -3,7 +3,7 @@
 
 
 
-![alt text](http://i.imgur.com/KGNmcDC.png "ReactRegions")
+![alt text](http://i.imgur.com/MAUAJFf.png "ReactRegions")
 ===========
 
 # ReactRegions
