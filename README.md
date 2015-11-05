@@ -1,8 +1,3 @@
-
-
-
-
-
 ![alt text](http://i.imgur.com/oqDBZkm.png "ReactRegions")
 ===========
 
@@ -10,7 +5,7 @@
 
 
 
-## Icons Credits 
+## Icons Credits
 
 - Atom vector By Lloyd Humphreys, DK (https://thenounproject.com/Lloyd)
 
