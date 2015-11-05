@@ -52,22 +52,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Region from './Region.jsx';
 
-
-import routesDeclaration from '../examples/routes.jsx';
-import myRegions from '../examples/regions.jsx';
-
 export default class Regions extends React.Component{
 	getRegion(title){
 		if (this.Regions[title])
 		return this.Regions[title]
 	}
 
-	static fetch(views){
+	static fetch(RegionsInstace,routesDeclaration){
       if(this.prototype.cachedViews === undefined){
-        this.prototype.cachedViews = ReactDOM.render(views,document.createElement('div'))
-        this.prototype.cachedViews.reRender()
+
+        this.prototype.cachedViews = ReactDOM.render(RegionsInstace,document.createElement('div'))
+        this.prototype.cachedViews.reRender(routesDeclaration)
       }
-      this.prototype.cachedViews.reRender()
+      this.prototype.cachedViews.reRender(routesDeclaration)
       return this.prototype.cachedViews
 	}
 
@@ -80,7 +77,7 @@ export default class Regions extends React.Component{
       this.Regions = {}
     }
 
-    reRender(){
+    reRender(routesDeclaration){
             var mainView = this.props.children.filter((child)=>{
               return child.props.main
             })[0];
@@ -89,43 +86,48 @@ export default class Regions extends React.Component{
             if (Region.checkMatch(requestedLocation,mainView.props.routeFragment)){
 
 
-              var myRoutes = this.props.children.map((region)=>{
-                  return {
-                    renderTo : region.props.title,
-                    path : Region.getMyportion(requestedLocation,region.props.routeFragment).result,
-                    regionProps : region.props
-                  }
-              })
+                            var myRoutes = this.props.children.map((region)=>{
+                                return {
+                                  renderTo : region.props.title,
+                                  path : Region.getMyportion(requestedLocation,region.props.routeFragment).result,
+                                  regionProps : region.props
+                                }
+                            })
 
 
             }else{
-              var myRoutes = []
-              var mainRender = true
-              myRoutes.push({
-                  renderTo : mainView.props.title,
-                  path : requestedLocation,
-                  viewProps : mainView.props
-              })
+                            var myRoutes = []
+                            var mainRender = true
+                            myRoutes.push({
+                                renderTo : mainView.props.title,
+                                path : requestedLocation,
+                                viewProps : mainView.props
+                            })
 
             }
 
             myRoutes.forEach((route)=>{
-
               var matchedRoute = findRoute(route.path,routesDeclaration.props.children);
+              if (matchedRoute === undefined){
+                console.warn('Route '+route.path+' doesn\'t match any route.','You should try one of these :\n',React.Children.map(routesDeclaration.props.children.props.children,(child)=>{
+                return child.props.path
+              }))
+              }
 
-              var component = matchedRoute.original_route.props.component || false
+              if (matchedRoute){
+                var component = matchedRoute.original_route.props.component || false
 
-              this.Regions[route.renderTo] = {}
-              this.Regions[route.renderTo].regionProps = route.regionProps
-              this.Regions[route.renderTo].location = requestedLocation
-              this.Regions[route.renderTo].component = React.createElement(component,{
-                params : matchedRoute.params
-              })
+                this.Regions[route.renderTo] = {}
+                this.Regions[route.renderTo].regionProps = route.regionProps
+                this.Regions[route.renderTo].location = requestedLocation
+                this.Regions[route.renderTo].component = React.createElement(component,{
+                  params : matchedRoute.params
+                })
+              }
 
             })
 
-
-            myRegions.props.children.forEach((region)=>{
+            this.props.children.forEach((region)=>{
               if (!this.Regions[region.props.title]){
                 this.Regions[region.props.title] = {}
                 this.Regions[region.props.title].component = <p></p>

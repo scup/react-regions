@@ -9,6 +9,7 @@ export default class Application extends React.Component {
 	}
 
 	findView(node, regions) {
+
 		let resultArray = React.Children.map(node.props.children, (child) => {
 			if (child.type !== Region){
 				if (child.props.children){
@@ -37,13 +38,13 @@ export default class Application extends React.Component {
 	}
 
 	componentWillMount(){
-		let regions = Regions.fetch(this.props.regions);
-		this.setState({ children: this.findView(this,regions) });
+		let regions = Regions.fetch(this.props.regions, this.props.routes);
+		this.setState({ children: this.findView(this, regions) });
 	}
 
 	componentWillReceiveProps(){
-		let regions = Regions.fetch(this.props.regions);
-		this.setState({ children : this.findView(this,regions) });
+		let regions = Regions.fetch(this.props.regions, this.props.routes);
+		this.setState({ children : this.findView(this, regions) });
 	}
 
   render() {
