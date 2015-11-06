@@ -57,7 +57,7 @@ import Region from './Region';
 export default class Regions extends React.Component {
   static propTypes = {
     regions: React.PropTypes.any,
-    children: React.PropTypes.element
+    children: React.PropTypes.any
   }
 
 	getRegion(title){

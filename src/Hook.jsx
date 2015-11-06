@@ -5,7 +5,7 @@ export default class Hook extends React.Component {
   static propTypes = {
     where: React.PropTypes.any,
     to: React.PropTypes.any,
-    children: React.PropTypes.element,
+    children: React.PropTypes.any,
   }
 
   render() {
