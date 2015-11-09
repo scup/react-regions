@@ -55,11 +55,6 @@ import ReactDOM from 'react-dom';
 import Region from './Region';
 
 export default class Regions extends React.Component {
-  static propTypes = {
-    regions: React.PropTypes.any,
-    children: React.PropTypes.any
-  }
-
 	getRegion(title){
 		if (this.Regions[title])
 		return this.Regions[title];
@@ -82,13 +77,14 @@ export default class Regions extends React.Component {
   }
 
   reRender(routesDeclaration) {
+    let myRoutes = [];
     let mainView = this.props.children.filter((child) => {
       return child.props.main
     })[0];
     let requestedLocation = (location.pathname+location.hash.replace('#','')+location.search).replace(/\/\//,'/');
 
     if (Region.checkMatch(requestedLocation,mainView.props.routeFragment)) {
-      let myRoutes = this.props.children.map((region) => {
+      myRoutes = this.props.children.map((region) => {
         return {
           renderTo: region.props.title,
           path: Region.getMyportion(requestedLocation, region.props.routeFragment).result,
@@ -96,7 +92,6 @@ export default class Regions extends React.Component {
         };
       });
     } else {
-      let myRoutes = [];
       let mainRender = true;
 
       myRoutes.push({
@@ -105,6 +100,8 @@ export default class Regions extends React.Component {
           viewProps : mainView.props
       });
     }
+
+console.log(myRoutes);
 
     myRoutes.forEach((route) => {
       let matchedRoute = findRoute(route.path,routesDeclaration.props.children);

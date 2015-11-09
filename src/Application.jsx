@@ -3,12 +3,6 @@ import Regions from './Regions';
 import Region from './Region';
 
 export default class Application extends React.Component {
-	static propTypes = {
-    children: React.PropTypes.element,
-    regions: React.PropTypes.any,
-    routes: React.PropTypes.any
-  }
-
 	constructor() {
 		super();
 		this.state = { children: <p></p> };
