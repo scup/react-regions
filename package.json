@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/scup/react-regions.git"
   }
-  "directories": {
+  "directories" : {
     "example": "examples",
     "docs": "docs",
     "test": "test"
