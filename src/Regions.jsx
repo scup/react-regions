@@ -50,7 +50,7 @@ function findRoute(location,routes){
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Region from './Region.jsx';
+import Region from './Region';
 
 export default class Regions extends React.Component{
 	getRegion(title){

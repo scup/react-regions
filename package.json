@@ -1,7 +1,7 @@
 {
   "name": "react-regions",
   "description" : "Region rendering solution for react",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "main": "lib/index.js",
   "directories": {
     "example": "examples",
