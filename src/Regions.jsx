@@ -101,8 +101,6 @@ export default class Regions extends React.Component {
       });
     }
 
-console.log(myRoutes);
-
     myRoutes.forEach((route) => {
       let matchedRoute = findRoute(route.path,routesDeclaration.props.children);
 
