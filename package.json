@@ -3,6 +3,10 @@
   "description" : "Region rendering solution for react",
   "version": "0.0.10",
   "main": "lib/index.js",
+  "repository" : {
+    "type": "git",
+    "url": "https://github.com/scup/react-regions.git"
+  }
   "directories": {
     "example": "examples",
     "docs": "docs",
