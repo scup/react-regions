@@ -1,4 +1,4 @@
-exports.Application = require('./src/Application.jsx');
-exports.Hook        = require('./src/Hook.jsx');
-exports.Region      = require('./src/Region.jsx');
-exports.Regions     = require('./src/Regions.jsx');
+exports.Application = require('./lib/Application');
+exports.Hook        = require('./lib/Hook');
+exports.Region      = require('./lib/Region');
+exports.Regions     = require('./lib/Regions');

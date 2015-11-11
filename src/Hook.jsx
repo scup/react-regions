@@ -1,5 +1,5 @@
 import React from 'react';
-import Region from './Region.jsx';
+import Region from './Region';
 
 export default class Hook extends React.Component {
   static propTypes = {

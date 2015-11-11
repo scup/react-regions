@@ -1,6 +1,6 @@
 import React from 'react';
-import Regions from './Regions.jsx';
-import Region from './Region.jsx';
+import Regions from './Regions';
+import Region from './Region';
 
 export default class Application extends React.Component {
 	constructor() {
