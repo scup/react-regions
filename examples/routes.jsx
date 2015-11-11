@@ -10,17 +10,25 @@ const history = useBasename(createHashHistory)({ basename: '', queryKey : false}
 
 class One extends React.Component {
   render() {
+    console.log(this.props.regions);
     return (
-      <h1>One</h1>
+      <div>
+          <h1>One</h1>
+          <Hook to="/two/teste" where={this.props.regions.aux}>LINK</Hook>
+      </div>
+
     );
   }
 }
 
 class Two extends React.Component {
   render() {
+    console.log(this.props.regions);
     return (
-      <h1>Two</h1>
-    );
+      <div>
+        <h1>Two</h1>
+        <Hook to="/one/teste" where={this.props.regions.main}>LINK</Hook>
+      </div>);
   }
 }
 

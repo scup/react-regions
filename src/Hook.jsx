@@ -1,5 +1,5 @@
 import React from 'react';
-import Region from './Region';
+import Region from './Region.jsx';
 
 export default class Hook extends React.Component {
   static propTypes = {
@@ -9,7 +9,8 @@ export default class Hook extends React.Component {
   }
 
   render() {
-    let myRoute = Region.getMyportion(
+
+    let myRoute = Region.getMyPortion(
     	this.props.where.location,
     	this.props.where.regionProps.routeFragment,
     	this.props.to

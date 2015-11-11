@@ -28,6 +28,10 @@ function checkMatch(location, route) {
 }
 
 function findRoute(location, routes) {
+
+  if (!location)
+  return false;
+
   if (!routes.filter) {
     routes = routes.props.children;
   }
@@ -52,7 +56,7 @@ function findRoute(location, routes) {
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Region from './Region';
+import Region from './Region.jsx';
 
 export default class Regions extends React.Component {
 	getRegion(title){
@@ -77,33 +81,47 @@ export default class Regions extends React.Component {
   }
 
   reRender(routesDeclaration) {
-    let myRoutes = [];
-    let mainView = this.props.children.filter((child) => {
+    this.Regions = {};
+    let myRegions = [];
+    let mainRegion = this.props.children.filter((child) => {
       return child.props.main
     })[0];
+
     let requestedLocation = (location.pathname+location.hash.replace('#','')+location.search).replace(/\/\//,'/');
 
-    if (Region.checkMatch(requestedLocation,mainView.props.routeFragment)) {
-      myRoutes = this.props.children.map((region) => {
+    if (Region.checkMatch(requestedLocation,mainRegion.props.routeFragment)) {
+      myRegions = this.props.children.map((region) => {
         return {
           renderTo: region.props.title,
-          path: Region.getMyportion(requestedLocation, region.props.routeFragment).result,
+          path: Region.getMyPortion(requestedLocation, region.props.routeFragment).result,
           regionProps: region.props
         };
       });
     } else {
-      let mainRender = true;
 
-      myRoutes.push({
-          renderTo : mainView.props.title,
-          path : requestedLocation,
-          viewProps : mainView.props
+      myRegions.push({
+          renderTo : mainRegion.props.title,
+          path : Region.getMyPortion(requestedLocation, mainRegion.props.routeFragment).result,
+          regionProps : mainRegion.props
       });
+
+      this.props.children.map((region) => {
+        if (!region.props.main)
+        myRegions.push({
+          renderTo : region.props.title,
+          regionProps : region.props
+        })
+      });
+
+
     }
 
-    myRoutes.forEach((route) => {
-      let matchedRoute = findRoute(route.path,routesDeclaration.props.children);
 
+
+
+    myRegions.forEach((route) => {
+
+      let matchedRoute = findRoute(route.path,routesDeclaration.props.children);
       if (matchedRoute === undefined){
         console.warn(
           'Route ' + route.path + ' doesn\'t match any route.','You should try one of these :\n',
@@ -122,17 +140,27 @@ export default class Regions extends React.Component {
         this.Regions[route.renderTo].component = React.createElement(component, {
           params : matchedRoute.params
         });
+      }else{
+        this.Regions[route.renderTo] = {};
+        this.Regions[route.renderTo].regionProps = route.regionProps;
+        this.Regions[route.renderTo].location = requestedLocation;
+        this.Regions[route.renderTo].component = false;
       }
     });
 
-    this.props.children.forEach((region) => {
-      if (!this.Regions[region.props.title]) {
-        this.Regions[region.props.title] = {};
-        this.Regions[region.props.title].component = (<p></p>);
-      } else {
-        this.Regions[region.props.title].views = this.Regions;
-      }
-    });
+
+
+    // this.props.children.forEach((region) => {
+    //   if (!this.Regions[region.props.title]) {
+    //     this.Regions[region.props.title] = {};
+    //     this.Regions[region.props.title].component = false;
+    //
+    //   } else {
+    //     this.Regions[region.props.title].regions = this.Regions;
+    //   }
+    // });
+
+
   }
 
   render() {
