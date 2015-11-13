@@ -16,10 +16,10 @@ export default class Region extends React.Component{
   static getMyPortion(url,portion,to){
     let acc = [];
     let indexes = [];
+
     portion = portion.split('/').filter((frag)=>frag !== '');
     let _originalUrl = url;
     url = url.split('/').filter((frag)=>frag !== '')
-
 
     let separators = portion.filter((frag)=>{
     	return frag !== '@' && frag !== '*'

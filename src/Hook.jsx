@@ -8,18 +8,40 @@ export default class Hook extends React.Component {
     children: React.PropTypes.any,
   }
 
-  render() {
+  constructor() {
+    super();
+    this.clickHandler = this.clickHandler.bind(this)
+  }
 
+  clickHandler(location) {
+    window.location.hash = location.replace(/\/+$/,'/');
+  }
+
+  componentWillRender() {
+    if (this.props.where.regionProps) {
+      return (
+        <div onClick={this.clickHandler.bind(this, this.props.to)}>
+          {this.props.children}
+        </div>
+      );
+    }
+  }
+
+  render() {
     let myRoute = Region.getMyPortion(
-    	this.props.where.location,
-    	this.props.where.regionProps.routeFragment,
-    	this.props.to
+      this.props.where.location,
+      this.props.where.regionProps.routeFragment,
+      this.props.to
     );
 
     if (location.hash.indexOf('#') !== -1){
-    	myRoute.diff = '#' + myRoute.diff
+      myRoute.diff = '#' + myRoute.diff
     }
 
-    return <a href={myRoute.diff}>{this.props.children}</a>
+    return (
+      <div onClick={this.clickHandler.bind(this, myRoute.diff)}>
+        {this.props.children}
+      </div>
+    );
   }
 };
