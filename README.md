@@ -2,6 +2,8 @@
 
 ![alt text](http://i.imgur.com/oqDBZkm.png "ReactRegions")
 
+[![Build Status](https://travis-ci.org/scup/react-regions.svg?branch=master)](https://travis-ci.org/scup/react-regions)
+
 ## Application
 ## Hooks
 ## Regions
