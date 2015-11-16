@@ -93,7 +93,7 @@ export default class Regions extends React.Component {
       myRegions = this.props.children.map((region) => {
         return {
           renderTo: region.props.title,
-          path: Region.getMyPortion(requestedLocation, region.props.routeFragment).result,
+          path: Region.getMyPortion(requestedLocation, region.props.routeFragment),
           regionProps: region.props
         };
       });
@@ -101,7 +101,7 @@ export default class Regions extends React.Component {
 
       myRegions.push({
           renderTo : mainRegion.props.title,
-          path : Region.getMyPortion(requestedLocation, mainRegion.props.routeFragment).result,
+          path : Region.getMyPortion(requestedLocation, mainRegion.props.routeFragment),
           regionProps : mainRegion.props
       });
 

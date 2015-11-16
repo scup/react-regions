@@ -5,6 +5,9 @@ module.exports = {
 		sourceFilename : '[file].map'
 	},
 	devtool: 'source-map',
+	resolve: {
+	 extensions: ['', '.js', '.jsx']
+ 	},
 	module : {
 		loaders : [{
 			test : /\.jsx?$/,

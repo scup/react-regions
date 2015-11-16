@@ -28,11 +28,16 @@ export default class Hook extends React.Component {
   }
 
   render() {
-    let myRoute = Region.getMyPortion(
+
+    console.log(this.props.where);
+
+    let myRoute = Region.getLinkTo(
       this.props.where.location,
       this.props.where.regionProps.routeFragment,
       this.props.to
     );
+
+    console.log(myRoute);
 
     if (location.hash.indexOf('#') !== -1){
       myRoute.diff = '#' + myRoute.diff
