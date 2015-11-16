@@ -13,7 +13,8 @@ class One extends React.Component {
     return (
       <div>
           <h1>One</h1>
-          <Hook to="/two/teste" where={this.props.regions.aux}>LINK</Hook>
+          <Hook to="/two/teste" region={this.props.regions.aux}>OPEN</Hook>
+          <Hook remove region={this.props.regions.aux}>CLOSE</Hook>
       </div>
     );
   }
@@ -24,7 +25,7 @@ class Two extends React.Component {
     return (
       <div>
         <h1>Two</h1>
-        <Hook to="/one/teste" where={this.props.regions.main}>LINK</Hook>
+        <Hook to="/one/teste" region={this.props.regions.main}>LINK</Hook>
       </div>);
   }
 }

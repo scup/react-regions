@@ -17,34 +17,35 @@ export default class Hook extends React.Component {
     window.location.hash = location.replace(/\/+$/,'/');
   }
 
-  componentWillRender() {
-    if (this.props.where.regionProps) {
-      return (
-        <div onClick={this.clickHandler.bind(this, this.props.to)}>
-          {this.props.children}
-        </div>
-      );
-    }
-  }
-
   render() {
 
-    console.log(this.props.where);
+    // console.log(this.props.where.regionProps.routeFragment);
 
-    let myRoute = Region.getLinkTo(
-      this.props.where.location,
-      this.props.where.regionProps.routeFragment,
-      this.props.to
-    );
+    let myRoute;
+    if (this.props.remove){
+      myRoute = Region.removePortion(
+        this.props.region.location,
+        this.props.region.regionProps.routeFragment
+      );
+      if (location.hash.indexOf('#') !== -1){
+        myRoute = '#' + myRoute
+      }
+    }
 
-    console.log(myRoute);
+    if (this.props.to){
+      myRoute = Region.getLinkTo(
+        this.props.region.location,
+        this.props.region.regionProps.routeFragment,
+        this.props.to
+      );
 
-    if (location.hash.indexOf('#') !== -1){
-      myRoute.diff = '#' + myRoute.diff
+      if (location.hash.indexOf('#') !== -1){
+        myRoute = '#' + myRoute
+      }
     }
 
     return (
-      <div onClick={this.clickHandler.bind(this, myRoute.diff)}>
+      <div onClick={this.clickHandler.bind(this, myRoute)}>
         {this.props.children}
       </div>
     );

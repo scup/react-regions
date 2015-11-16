@@ -60,7 +60,7 @@ export default class Region extends React.Component{
       (frag)=>frag !== undefined
     );
 
-    return this.removeTrailingSeparators(finalUrl,separators).join('/');
+    return this.removeTrailingSeparators(finalUrl,separators).join('/').replace(/\/\//g,'/');
 
   }
 
@@ -86,6 +86,28 @@ export default class Region extends React.Component{
     })
 
     return finalUrl
+  }
+
+  static removePortion(url,pattern){
+    let finalUrl
+    pattern = pattern.split('/').filter((frag)=>frag !== '');
+    let separators = this.getSeparators(pattern);
+    url = url.split('/').filter((frag)=>frag !== '').join('/');
+
+    let serializedRoute = this.serializeRoute(url,separators)
+
+    finalUrl = this.serializeRoute(url,separators)
+    .reduce((acc,frag,index)=>{
+      if (pattern[index] === '@')
+        return acc;
+      acc.push(frag)
+      return acc;
+    },[])
+
+    return this.removeTrailingSeparators(finalUrl,separators);
+
+
+
   }
 
   render() {
