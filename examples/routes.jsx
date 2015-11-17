@@ -14,18 +14,29 @@ class One extends React.Component {
       <div>
           <h1>One</h1>
           <Hook to="/two/teste" region={this.props.regions.aux}>OPEN</Hook>
-          <Hook remove region={this.props.regions.aux}>CLOSE</Hook>
+          <Hook remove region={this.props.regions.aux}>\</Hook>
       </div>
     );
   }
 }
 
 class Two extends React.Component {
+  close(){
+    Hook.close(this.props.region)
+  }
+
+  go(){
+    Hook.go(this.props.region,'/one/teste')
+  }
+
+  vai
   render() {
-    return (
-      <div>
+  return (
+      <div onClick={this.vai}>
         <h1>Two</h1>
         <Hook to="/one/teste" region={this.props.regions.main}>LINK</Hook>
+        <h1 onClick={this.close.bind(this)}>Virtual Hook</h1>
+        <h1 onClick={this.go.bind(this)}>Virtual Hook</h1>
       </div>);
   }
 }

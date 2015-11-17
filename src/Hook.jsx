@@ -8,6 +8,24 @@ export default class Hook extends React.Component {
     children: React.PropTypes.any,
   }
 
+
+  static close(region){
+    var myRoute = Region.removePortion(
+      region.location,
+      region.regionProps.routeFragment
+    );
+    window.location.hash = myRoute[0].replace(/\/+$/,'/');
+  }
+
+  static go(region,to){
+    var myRoute = Region.getLinkTo(
+      region.location,
+      region.regionProps.routeFragment,
+      to
+    );
+    window.location.hash = myRoute.replace(/\/+$/,'/');
+  }
+
   constructor() {
     super();
     this.clickHandler = this.clickHandler.bind(this)
@@ -18,8 +36,6 @@ export default class Hook extends React.Component {
   }
 
   render() {
-
-    // console.log(this.props.where.regionProps.routeFragment);
 
     let myRoute;
     if (this.props.remove){

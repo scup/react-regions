@@ -105,21 +105,25 @@ export default class Region extends React.Component{
     },[])
 
     return this.removeTrailingSeparators(finalUrl,separators);
-
-
-
   }
 
   render() {
     if (this.props.shouldRender) {
+
       let component = this.props.regions.getRegion(this.props.title).component;
       if (component){
-      	component = React.cloneElement(this.props.regions.getRegion(this.props.title).component, {
-      		region: this.props.title,
-      		regions: this.props.regions.Regions
+        var regions = this.props.regions.Regions
+
+        Object.keys(regions).forEach(function(key){
+            regions[key].history = this.props.history
+        }.bind(this))
+
+      	component = React.cloneElement(regions[this.props.title].component, {
+      		region: regions[this.props.title],
+      		regions: regions
   	    });
       }else{
-        component = (<div></div>)
+        component = null
       }
 
     	return component;

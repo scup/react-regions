@@ -5,7 +5,7 @@ import Region from './Region';
 export default class Application extends React.Component {
 	constructor() {
 		super();
-		this.state = { children: <p></p> };
+		this.state = { children: null };
 	}
 
 	findView(node, regions) {
@@ -23,7 +23,8 @@ export default class Application extends React.Component {
 			} else {
 				return React.cloneElement(child, {
 					shouldRender: true,
-					regions: regions
+					regions: regions,
+					history: this.props.routes.props.history
 				});
 			}
 		});

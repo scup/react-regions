@@ -17,11 +17,9 @@ export default class Regions extends React.Component {
 
     let matchs = route.filter((frag, index) => {
       let matched = (location[index] === frag || frag === '*' || frag.indexOf(':') !== -1);
-
       if (frag.indexOf(':') !== -1){
         params[frag.replace(':','')] = location[index];
       }
-
       return matched;
     });
 
@@ -29,10 +27,8 @@ export default class Regions extends React.Component {
       if (original_route.props.children) {
         return findRoute(original_location.join('/'), original_route.props.children);
       }
-
       return {original_route,params};
     }
-
     return false;
   }
 
@@ -57,7 +53,7 @@ export default class Regions extends React.Component {
       if (this.prototype.cachedViews === undefined) {
         this.prototype.cachedViews = ReactDOM.render(RegionsInstace,document.createElement('div'));
       }
-      this.prototype.cachedViews.reRender(routesDeclaration);
+      this.prototype.cachedViews.refresh(routesDeclaration);
       return this.prototype.cachedViews;
 	}
 
@@ -67,7 +63,7 @@ export default class Regions extends React.Component {
     this.Regions = {};
   }
 
-  reRender(routesDeclaration) {
+  refresh(routesDeclaration) {
     this.Regions = {};
     let myRegions = [];
     let mainRegion = this.props.children.filter((child) => {
@@ -75,6 +71,7 @@ export default class Regions extends React.Component {
     })[0];
 
     let requestedLocation = (location.pathname+location.hash.replace('#','')+location.search).replace(/\/\//,'/');
+
 
     if (Region.checkMatch(requestedLocation,mainRegion.props.routeFragment)) {
       myRegions = this.props.children.map((region) => {
@@ -99,8 +96,6 @@ export default class Regions extends React.Component {
           regionProps : region.props
         })
       });
-
-
     }
 
 
@@ -138,6 +133,6 @@ export default class Regions extends React.Component {
   }
 
   render() {
-    return (<p style={{display:'none'}}></p>);
+    return null;
   }
 };
