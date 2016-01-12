@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Region from './Region';
+import Region from './Region.jsx';
 
 export default class Regions extends React.Component {
 	getRegion(title){
@@ -40,11 +40,9 @@ export default class Regions extends React.Component {
     if (!routes.filter) {
       routes = routes.props.children;
     }
-
     let finalRoutes = routes.map((route) => {
       return this.checkMatch(location,route);
     }).filter((route) => route)[0];
-
     return finalRoutes;
   }
 
@@ -72,7 +70,6 @@ export default class Regions extends React.Component {
 
     let requestedLocation = (location.pathname+location.hash.replace('#','')+location.search).replace(/\/\//,'/');
 
-
     if (Region.checkMatch(requestedLocation,mainRegion.props.routeFragment)) {
       myRegions = this.props.children.map((region) => {
         return {
@@ -98,9 +95,6 @@ export default class Regions extends React.Component {
       });
     }
 
-
-
-
     myRegions.forEach((route) => {
 
       let matchedRoute = this.findRoute(route.path,routesDeclaration.props.children);
@@ -113,21 +107,21 @@ export default class Regions extends React.Component {
         );
       }
 
-      if (matchedRoute) {
-        let component = matchedRoute.original_route.props.component || false;
+      let component = false;
 
-        this.Regions[route.renderTo] = {};
-        this.Regions[route.renderTo].regionProps = route.regionProps;
-        this.Regions[route.renderTo].location = requestedLocation;
-        this.Regions[route.renderTo].component = React.createElement(component, {
-          params : matchedRoute.params
-        });
-      }else{
-        this.Regions[route.renderTo] = {};
-        this.Regions[route.renderTo].regionProps = route.regionProps;
-        this.Regions[route.renderTo].location = requestedLocation;
-        this.Regions[route.renderTo].component = false;
+      this.Regions[route.renderTo] = {};
+      this.Regions[route.renderTo].regionProps = route.regionProps;
+      this.Regions[route.renderTo].location = requestedLocation;
+
+      if (matchedRoute) {
+        component = matchedRoute.original_route.props.component;
       }
+
+      if (component) {
+        component = React.createElement(component, { params : matchedRoute.params });
+      }
+
+      this.Regions[route.renderTo].component = component;
     });
 
   }
