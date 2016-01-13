@@ -1,61 +1,73 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ComponentValidator from './ComponentValidator.jsx';
 import Region from './Region';
 
 export default class Regions extends React.Component {
-	getRegion(title){
-		if (this.Regions[title])
-		return this.Regions[title];
-	}
+
+  static propTypes = {
+    children: ComponentValidator.onlyComponentsOf(Region)
+  };
+
+  getRegion(title) {
+    if (this.Regions[title])
+      return this.Regions[title];
+  }
 
   checkMatch(location, route) {
-    let params = {}
+    let params = {};
     let original_route = route;
-    let original_location = location = location.replace(/\|\|/,'|').split('/').filter((frag) => frag !== '');
+    let original_location = location = location.replace(/\|\|/, '|').split('/').filter((frag) => frag !== '');
 
-    route = route.props.path.replace(/\|\|/,'|').split('/').filter((frag) => frag !== '');
+    route = route.props.path.replace(/\|\|/, '|').split('/').filter((frag) => frag !== '');
 
     let matchs = route.filter((frag, index) => {
+
       let matched = (location[index] === frag || frag === '*' || frag.indexOf(':') !== -1);
-      if (frag.indexOf(':') !== -1){
-        params[frag.replace(':','')] = location[index];
+
+      if (frag.indexOf(':') !== -1) {
+        params[frag.replace(':', '')] = location[index];
       }
+
       return matched;
     });
 
     if (matchs.length === route.length) {
+
       if (original_route.props.children) {
         return findRoute(original_location.join('/'), original_route.props.children);
       }
-      return {original_route,params};
+
+      return {original_route, params};
     }
+
     return false;
   }
 
   findRoute(location, routes) {
 
     if (!location)
-    return false;
+      return false;
 
     if (!routes.filter) {
       routes = routes.props.children;
     }
 
     let finalRoutes = routes.map((route) => {
-      return this.checkMatch(location,route);
+      return this.checkMatch(location, route);
     }).filter((route) => route)[0];
 
     return finalRoutes;
   }
 
 
-	static fetch(RegionsInstace,routesDeclaration){
-      if (this.prototype.cachedViews === undefined) {
-        this.prototype.cachedViews = ReactDOM.render(RegionsInstace,document.createElement('div'));
-      }
-      this.prototype.cachedViews.refresh(routesDeclaration);
-      return this.prototype.cachedViews;
-	}
+  static fetch(RegionsInstace, routesDeclaration) {
+    if (this.prototype.cachedViews === undefined) {
+      this.prototype.cachedViews = ReactDOM.render(RegionsInstace, document.createElement('div'));
+    }
+    this.prototype.cachedViews.refresh(routesDeclaration);
+    return this.prototype.cachedViews;
+  }
 
   constructor() {
     super();
@@ -67,13 +79,13 @@ export default class Regions extends React.Component {
     this.Regions = {};
     let myRegions = [];
     let mainRegion = this.props.children.filter((child) => {
-      return child.props.main
+      return child.props.main;
     })[0];
 
-    let requestedLocation = (location.pathname+location.hash.replace('#','')+location.search).replace(/\/\//,'/');
+    let requestedLocation = (location.pathname + location.hash.replace('#', '') + location.search).replace(/\/\//, '/');
 
 
-    if (Region.checkMatch(requestedLocation,mainRegion.props.routeFragment)) {
+    if (Region.checkMatch(requestedLocation, mainRegion.props.routeFragment)) {
       myRegions = this.props.children.map((region) => {
         return {
           renderTo: region.props.title,
@@ -84,29 +96,27 @@ export default class Regions extends React.Component {
     } else {
 
       myRegions.push({
-          renderTo : mainRegion.props.title,
-          path : Region.getMyPortion(requestedLocation, mainRegion.props.routeFragment),
-          regionProps : mainRegion.props
+        renderTo: mainRegion.props.title,
+        path: Region.getMyPortion(requestedLocation, mainRegion.props.routeFragment),
+        regionProps: mainRegion.props
       });
 
       this.props.children.map((region) => {
         if (!region.props.main)
-        myRegions.push({
-          renderTo : region.props.title,
-          regionProps : region.props
-        })
+          myRegions.push({
+            renderTo: region.props.title,
+            regionProps: region.props
+          });
       });
     }
 
 
-
-
     myRegions.forEach((route) => {
 
-      let matchedRoute = this.findRoute(route.path,routesDeclaration.props.children);
-      if (matchedRoute === undefined){
+      let matchedRoute = this.findRoute(route.path, routesDeclaration.props.children);
+      if (matchedRoute === undefined) {
         console.warn(
-          'Route ' + route.path + ' doesn\'t match any route.','You should try one of these :\n',
+          'Route ' + route.path + ' doesn\'t match any route.', 'You should try one of these :\n',
           React.Children.map(routesDeclaration.props.children.props.children, (child) => {
             return child.props.path;
           })
@@ -120,9 +130,9 @@ export default class Regions extends React.Component {
         this.Regions[route.renderTo].regionProps = route.regionProps;
         this.Regions[route.renderTo].location = requestedLocation;
         this.Regions[route.renderTo].component = React.createElement(component, {
-          params : matchedRoute.params
+          params: matchedRoute.params
         });
-      }else{
+      } else {
         this.Regions[route.renderTo] = {};
         this.Regions[route.renderTo].regionProps = route.regionProps;
         this.Regions[route.renderTo].location = requestedLocation;
