@@ -117,7 +117,7 @@ export default class Region extends React.Component {
       let component = this.props.regions.getRegion(this.props.title).component;
 
       if (component) {
-        let regions = this.props.regions.Regions;
+        let regions = this.props.regions.regions;
 
         Object.keys(regions).forEach((key) => {
           regions[key].history = this.props.history;
