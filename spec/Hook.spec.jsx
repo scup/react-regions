@@ -8,7 +8,7 @@ import Region from '../src/Region.jsx';
 // var element = TestUtils.renderIntoDocument(<Hook to="/two/teste" region={region}/>);
 describe('Hook Module ', function () {
 
-  it('should include the auxiliar fragment to url',function(){
+  xit('should include the auxiliar fragment to url',function(){
     //Given
     const region = {
         location: '/one/teste/aux/one/teste',
@@ -27,7 +27,7 @@ describe('Hook Module ', function () {
     expect(Region.getLinkTo).toHaveBeenCalledWith(region.location, region.regionProps.routeFragment, location);
   });
 
-  it('should remove the auxiliar fragment from url',function(){
+  xit('should remove the auxiliar fragment from url',function(){
     //Given
     let region = {
         location: '/one/teste/aux/one/teste',
