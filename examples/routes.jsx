@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
-import { Router, Route, Link, Redirect } from 'react-router';
-import { createHashHistory, useBasename } from 'history';
+import { Router, Route, Link, Redirect, useRouterHistory } from 'react-router';
+import { createHashHistory } from 'history';
 
 import Main from './main-view.jsx';
 import Hook from '../src/Hook.jsx';
 import Region from '../src/Region.jsx';
 
-const history = useBasename(createHashHistory)({basename: '', queryKey: false});
+const appHistory = useRouterHistory(createHashHistory)({ basename: '', queryKey: false });
 
 class One extends React.Component {
 
@@ -54,7 +54,7 @@ class Two extends React.Component {
   }
 }
 
-export default (<Router history={history}>
+export default (<Router history={appHistory}>
   <Route path="/" component={Main}>
     <Route path="one/:paramOfOne/*" component={One}/>
     <Route path="two/:paramOfTwo/*" component={Two}/>

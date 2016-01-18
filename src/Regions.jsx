@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import ComponentValidator from './ComponentValidator.jsx';
-import Region from './Region';
+import Region from './Region.jsx';
 
 export default class Regions extends React.Component {
 
@@ -11,25 +11,30 @@ export default class Regions extends React.Component {
     this.regions = {};
   }
 
-	getRegion(title){
+  static propTypes = {
+    children: PropTypes.any,
+  };
+
+	getRegion(title) {
 		if (this.regions[title])
 		return this.regions[title];
 	}
 
   static _splitPath( path ) {
+
       return path.replace(/\|\|/,'|').split('/').filter((frag) => frag !== '');
     }
 
   static _getMatchedRoute(location, route) {
-    let params = {}
-    let original_route = route;
+    let params = {};
+    let originalRoute = route;
     let original_location = location = Regions._splitPath(location);
 
     route = Regions._splitPath(route.props.path);
 
     let matchs = route.filter((fragment, index) => {
       const matched = (location[index] === fragment || fragment === '*' || fragment.indexOf(':') !== -1);
-      if (fragment.indexOf(':') !== -1){
+      if (fragment.indexOf(':') !== -1) {
         params[fragment.replace(':','')] = location[index];
       }
 
@@ -37,7 +42,7 @@ export default class Regions extends React.Component {
     });
 
     if (matchs.length === route.length) {
-      return {original_route,params};
+      return {originalRoute,params};
     }
   }
 
@@ -56,7 +61,7 @@ export default class Regions extends React.Component {
     }
   }
 
-	static fetch(RegionsInstace, routesDeclaration){
+	static fetch(RegionsInstace, routesDeclaration) {
       if (this.prototype.cachedView === undefined) {
         this.prototype.cachedView = ReactDOM.render(RegionsInstace,document.createElement('div'));
       }
@@ -73,7 +78,7 @@ export default class Regions extends React.Component {
     };
 
     let matchedRoute = Regions._findRoute(regionDefinition.path, this.routesDeclaration.props.children);
-    if (matchedRoute === undefined){
+    if (matchedRoute === undefined) {
       console.warn(
         'Route ' + regionDefinition.path + ' doesn\'t match any route.','You should try one of these :\n',
         React.Children.map(this.routesDeclaration.props.children.props.children, (child) => {
@@ -89,7 +94,7 @@ export default class Regions extends React.Component {
     this.regions[regionDefinition.renderTo].location = this.requestedLocation;
 
     if (matchedRoute) {
-      component = matchedRoute.original_route.props.component;
+      component = matchedRoute.originalRoute.props.component;
     }
 
     if (component) {
@@ -112,7 +117,7 @@ export default class Regions extends React.Component {
       this._createRegionObject(mainRegion);
 
       this.props.children.forEach((region) => {
-        if (!region.props.main){
+        if (!region.props.main) {
           this._createRegionObject(region, true);
         }
       });

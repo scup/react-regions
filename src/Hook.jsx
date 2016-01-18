@@ -10,7 +10,7 @@ export default class Hook extends React.Component {
     remove: PropTypes.bool
   };
 
-  static close(region){
+  static close(region) {
     const myRoute = Region.removePortion(
       region.location,
       region.regionProps.routeFragment
@@ -18,7 +18,7 @@ export default class Hook extends React.Component {
     window.location.hash = myRoute[0].replace(/\/+$/, '/');
   }
 
-  static go(region,to){
+  static go(region,to) {
     const myRoute = Region.getLinkTo(
       region.location,
       region.regionProps.routeFragment,
