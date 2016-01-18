@@ -15,6 +15,7 @@
   "scripts": {
     "start": "node_modules/.bin/webpack-dev-server --content-base ./examples --progress --colors --host 0.0.0.0",
     "test": "karma start",
+    "testci": "env PHANTOMJS_BIN=/usr/local/bin/phantomjs npm test",
     "test-dev": "karma start",
     "postinstall": "babel ./src -d lib"
   },
