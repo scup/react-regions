@@ -1,8 +1,15 @@
 module.exports = function (config) {
   config.set({
+    port: 9876,
     browsers: ['PhantomJS2'],
     files: [
       {pattern: 'test-context.js', watched: false}
+    ],
+    plugins: [
+      'karma-webpack',
+      'karma-jasmine',
+      'karma-coverage',
+      'karma-phantomjs2-launcher'
     ],
     frameworks: ['jasmine'],
     preprocessors: {

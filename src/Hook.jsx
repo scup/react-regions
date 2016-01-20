@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react';
-import Region from './Region';
+import Region from './Region.jsx';
 
 export default class Hook extends React.Component {
-
   static propTypes = {
     region: PropTypes.shape(Region.propTypes),
     where: PropTypes.any,
@@ -12,15 +11,15 @@ export default class Hook extends React.Component {
   };
 
   static close(region) {
-    let myRoute = Region.removePortion(
+    const myRoute = Region.removePortion(
       region.location,
       region.regionProps.routeFragment
     );
     window.location.hash = myRoute[0].replace(/\/+$/, '/');
   }
 
-  static go(region, to) {
-    let myRoute = Region.getLinkTo(
+  static go(region,to) {
+    const myRoute = Region.getLinkTo(
       region.location,
       region.regionProps.routeFragment,
       to

@@ -14,7 +14,8 @@
   },
   "scripts": {
     "start": "node_modules/.bin/webpack-dev-server --content-base ./examples --progress --colors --host 0.0.0.0",
-    "test": "jasmine",
+    "test": "karma start --single-run",
+    "testci": "env PHANTOMJS_BIN=/usr/local/bin/phantomjs npm test",
     "test-dev": "karma start",
     "postinstall": "babel ./src -d lib"
   },
@@ -33,6 +34,7 @@
     "jasmine-core": "^2.3.4",
     "jasmine-es6": "0.0.18",
     "karma": "^0.13.11",
+    "karma-coverage": "^0.5.3",
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs2-launcher": "^0.3.2",
     "karma-webpack": "^1.7.0",
