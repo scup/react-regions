@@ -1,9 +1,11 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
+import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import Region from '../src/Region.jsx'
 import Regions from '../src/Regions.jsx';
 import Route from 'react-router';
+
+import Faker from 'faker';
 
 class One extends React.Component {
   render(){
@@ -17,10 +19,7 @@ class Two extends React.Component {
   }
 }
 
-require('./support/arrayFind.polyfill.js');
-
 describe( 'Regions module', function () {
-
   let element, region, regionAux, routesMock;
 
   beforeEach( function() {
@@ -108,45 +107,43 @@ describe( 'Regions module', function () {
   });
 
   describe(' - refresh - ', function(){
+    const ramdomParamOne = Faker.lorem.words()[0];
+    const ramdomParamTwo = Faker.lorem.words()[1];
+    const pathOne = `${ramdomParamOne}/:paramOfOne/*`;
+    const pathTwo = `${ramdomParamTwo}/:paramOfTwo/*`;
+    const routeToOne = <Route path={pathOne} component={One}/>;
+    const routeToTwo = <Route path={pathTwo} component={Two}/>;
+    const router = (
+      <div>
+      <Route path="/">{[routeToOne, routeToTwo]}</Route>
+      </div>
+    );
+
     it('should set a component to main region with props and undefined to aux region', function(){
       //Given
-      const routeToOne = <Route path="one/:paramOfOne/*" component={One}/>;
-      const routeToTwo = <Route path="two/:paramOfTwo/*" component={Two}/>;
-      window.location.hash = '#/one/teste/';
-      const router = (
-        <div>
-          <Route path="/">{[routeToOne, routeToTwo]}</Route>
-        </div>
-      );
+      window.location.hash = `#/${ramdomParamOne}/teste/`;
       //When
       element.refresh( router );
       const main = element.regions.main;
       const aux = element.regions.aux;
 
       //Then - MAIN
-      expect(TestUtils.isElementOfType(main.component, One)).toBeTruthy();
+      expect( TestUtils.isElementOfType(main.component, One) ).toBeTruthy();
       expect( main.regionProps.routeFragment ).toBe( '@/aux/*' );
       expect( main.regionProps.title ).toBe( 'main' );
-      expect( main.location ).toBe( '/one/teste/' );
+      expect( main.location ).toBe( `/${ramdomParamOne}/teste/` );
       expect( main.component.props.params.paramOfOne ).toBe( 'teste' );
 
       //Then - AUX
       expect( aux.component ).toBe( false );
-      expect( aux.location ).toBe( '/one/teste/' );
+      expect( aux.location ).toBe( `/${ramdomParamOne}/teste/` );
       expect( aux.regionProps.routeFragment ).toBe( '*/aux/@' );
       expect( aux.regionProps.title ).toBe( 'aux' );
     });
 
     it('should set a component to main region and to aux region, both with props', function(){
       //Given
-      const routeToOne = <Route path="one/:paramOfOne/*" component={One}/>;
-      const routeToTwo = <Route path="two/:paramOfTwo/*" component={Two}/>;
-      window.location.hash = '#/two/teste/aux/one/teste2';
-      const router = (
-        <div>
-          <Route path="/">{[routeToOne, routeToTwo]}</Route>
-        </div>
-      );
+      window.location.hash = `#/${ramdomParamTwo}/teste/aux/${ramdomParamOne}/teste2`;
       //When
       element.refresh( router );
       const main = element.regions.main;
@@ -154,38 +151,17 @@ describe( 'Regions module', function () {
 
       //Then - MAIN
       expect(TestUtils.isElementOfType(main.component, Two)).toBeTruthy();
-      expect( main.location ).toBe( '/two/teste/aux/one/teste2' );
+      expect( main.location ).toBe( `/${ramdomParamTwo}/teste/aux/${ramdomParamOne}/teste2` );
       expect( main.component.props.params.paramOfTwo ).toBe( 'teste' );
       expect( main.regionProps.routeFragment ).toBe( '@/aux/*' );
       expect( main.regionProps.title ).toBe( 'main' );
+
       //Then - AUX
       expect(TestUtils.isElementOfType(aux.component, One)).toBeTruthy();
-      expect( aux.location ).toBe( '/two/teste/aux/one/teste2' );
+      expect( aux.location ).toBe( `/${ramdomParamTwo}/teste/aux/${ramdomParamOne}/teste2` );
       expect( aux.component.props.params.paramOfOne ).toBe( 'teste2' );
       expect( aux.regionProps.routeFragment ).toBe( '*/aux/@' );
       expect( aux.regionProps.title ).toBe( 'aux' );
     });
   });
 });
-
-
-
-
-
-
-
-
-
-
-// spyOn(Region, 'checkMatch').and.returnValue(true);
-
-// const matchedRoute = {
-//   originalRoute: {
-//     props: {
-//       component: (routeToOne)
-//     },
-//   },
-//   params: {
-//     paramOfOne: "teste"
-//   }
-// };

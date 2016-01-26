@@ -20,6 +20,7 @@
     "postinstall": "babel ./src -d lib"
   },
   "devDependencies": {
+    "Faker": "^0.7.2",
     "babel": "^5.8.23",
     "babel-core": "^5.8.25",
     "babel-eslint": "^4.1.6",
@@ -31,6 +32,7 @@
     "eslint": "^1.10.3",
     "eslint-loader": "^1.2.0",
     "eslint-plugin-react": "^3.15.0",
+    "faker": "^3.0.1",
     "history": "^1.12.5",
     "jasmine-core": "^2.3.4",
     "jasmine-es6": "0.0.18",

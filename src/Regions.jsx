@@ -77,7 +77,6 @@ export default class Regions extends React.Component {
       regionProps: region.props
     };
 
-    console.log('assss', regionDefinition.path);
     let matchedRoute = Regions._findRoute(regionDefinition.path, this.routesDeclaration.props.children);
 
     if (matchedRoute === undefined) {
@@ -124,7 +123,6 @@ export default class Regions extends React.Component {
       });
 
     }
-    console.log('regions', this.regions.main);
   }
 
   render() {
