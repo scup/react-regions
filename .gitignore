@@ -1,6 +1,9 @@
 karma-*
 .DS_Store
 
+# Dist directory created by webpack
+./dist
+
 # Logs
 logs
 *.log

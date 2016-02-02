@@ -3,7 +3,8 @@ module.exports = function (config) {
     port: 9876,
     browsers: ['PhantomJS2'],
     files: [
-      {pattern: 'test-context.js', watched: false}
+      {pattern: 'test-context.js', watched: false},
+      'node_modules/babel-polyfill/dist/polyfill.js'
     ],
     plugins: [
       'karma-webpack',
